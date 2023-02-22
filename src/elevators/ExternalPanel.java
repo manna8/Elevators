@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ExternalPanel {
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     ArrayList<Tuple> externalCalls = new ArrayList<>();
 
-    HelperMethods helper = new HelperMethods();
-
-    void externalCall(int atFloor, int direction) {
+    private void externalCall(int atFloor, int direction) {
         Tuple call = new Tuple(atFloor, direction);
         this.externalCalls.add(call);
     }
 
-     void handleExternalCall() {
+    public void handleExternalCall() {
         System.out.println("On which floor are you?");
 
          if(!scanner.hasNextInt()) {
@@ -25,14 +23,14 @@ public class ExternalPanel {
 
         int floor = scanner.nextInt();
 
-        if (!helper.checkIfValidFloor(floor)) {
+        if (!HelperMethods.checkIfValidFloor(floor)) {
             System.out.printf("Provide a valid floor number (from %d to %d).%n", ElevatorStops.get().getMinFloor(), ElevatorStops.get().getMaxFloor());
             return;
         }
 
-        int direction = helper.returnValidDirection(floor);
+        int direction = HelperMethods.returnValidDirection(floor);
 
-        if (direction == 0) {
+        if (direction == HelperMethods.WRONG_DIRECTION) {
             System.out.println("Provide a valid direction (letter u or d).");
             return;
         }
@@ -41,7 +39,7 @@ public class ExternalPanel {
     }
 
     // decides which elevator should take this call and assigns given floor to an elevator
-    void pickup(int floor, int direction) {
+    public void pickup(int floor, int direction) {
         ElevatorCar chosenCar = null;
         int minStops = Integer.MAX_VALUE;
 
@@ -52,14 +50,14 @@ public class ExternalPanel {
                 return;
             }
 
-            if (direction == -1) {
+            if (direction == ElevatorCar.DOWN) {
                 if (!car.floorsQueueUp.isEmpty()) {
                     continue;
                 }
 
                 stopsNum = ElevatorStops.get().calculateDistanceForDown(floor, car, stopsNum);
 
-            } else if (direction == 1) {
+            } else if (direction == ElevatorCar.UP) {
                 if (!car.floorsQueueDown.isEmpty()) {
                     continue;
                 }

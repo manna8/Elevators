@@ -5,14 +5,12 @@ import java.util.Scanner;
 public class InternalPanel {
     Scanner scanner = new Scanner(System.in);
 
-    HelperMethods helper = new HelperMethods();
-
-    void internalCall(int elevatorId, int toFloor) {
+    private void internalCall(int elevatorId, int toFloor) {
         ElevatorCar car = ElevatorSystem.get().elevatorCars.get(elevatorId);
         car.decideWhichWay(car.direction, toFloor);
     }
 
-    void handleInternalCall() {
+    public void handleInternalCall() {
         System.out.println("Specify the id of an elevator.");
 
         if(!scanner.hasNextInt()) {
@@ -23,7 +21,7 @@ public class InternalPanel {
 
         int id = scanner.nextInt();
 
-        if(!helper.checkIfValidId(id)) {
+        if(!HelperMethods.checkIfValidId(id)) {
             System.out.printf("Provide a valid id number (from %d and %d).%n", 0, ElevatorSystem.get().getElevatorsNum() - 1);
             return;
         }
@@ -38,7 +36,7 @@ public class InternalPanel {
 
         int floor = scanner.nextInt();
 
-        if(!helper.checkIfValidFloor(floor)) {
+        if(!HelperMethods.checkIfValidFloor(floor)) {
             System.out.printf("Provide a valid floor number (from %d and %d)",
                     ElevatorStops.get().getMinFloor(),
                     ElevatorStops.get().getMaxFloor());

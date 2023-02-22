@@ -4,33 +4,38 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HelperMethods {
-    Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final int WRONG_DIRECTION = -5;
 
-    boolean checkIfValidFloor(int floor) {
+    public static boolean checkIfValidFloor(int floor) {
         return (floor >= ElevatorStops.get().getMinFloor() && floor <= ElevatorStops.get().getMaxFloor());
     }
 
-    boolean checkIfValidId(int id) {
+    public static boolean checkIfValidId(int id) {
         return (id >= 0 && id < ElevatorSystem.get().getElevatorsNum());
     }
 
-    int returnValidDirection(int floor) {
+    public static int returnValidDirection(int floor) {
         if (floor == ElevatorStops.get().getMaxFloor()) {
-            return -1;
+            return ElevatorCar.DOWN;
         } else if (floor == ElevatorStops.get().getMinFloor()) {
-            return 1;
+            return ElevatorCar.UP;
         }
 
         System.out.println("Are you going up [u] or down [d]?");
         String directionString = scanner.next();
 
-        return directionString.equals("u") ? 1 : directionString.equals("d") ? -1 : 0;
+        if (directionString.equals("u")) {
+            return ElevatorCar.UP;
+        }
+
+        return directionString.equals("d") ? ElevatorCar.DOWN : WRONG_DIRECTION;
     }
 
-    boolean isNextInt() {
+    public static boolean isNextInt() {
         if (scanner.hasNextInt()) {
             return true;
         }
@@ -41,7 +46,7 @@ public class HelperMethods {
 
     }
 
-    public void drawElevators(ArrayList<ElevatorCar> elevatorCars) {
+    public static void drawElevators(ArrayList<ElevatorCar> elevatorCars) {
         String top = "";
         String box = "";
         String ids = "";
@@ -59,7 +64,7 @@ public class HelperMethods {
         System.out.println();
     }
 
-    protected void helloMessage() {
+    public static void helloMessage() {
         System.out.printf("There are floors from %d to %d", ElevatorStops.get().getMinFloor(), ElevatorStops.get().getMaxFloor());
         System.out.println(ANSI_YELLOW);
 
@@ -76,7 +81,7 @@ public class HelperMethods {
         System.out.println(ANSI_RESET);
     }
 
-     boolean setLowestFloor() {
+     public static boolean setLowestFloor() {
         System.out.println("Enter number of the lowest floor (from -10 to 0)");
 
          if (!isNextInt()) {
@@ -85,7 +90,7 @@ public class HelperMethods {
 
         int minFloor = scanner.nextInt();
 
-        if (minFloor < -10 || minFloor > 0) {
+        if (minFloor < ElevatorStops.MIN_FLOOR_LIMIT_BOTTOM || minFloor > ElevatorStops.MAX_FLOOR_LIMIT_BOTTOM) {
             System.out.println("The floor must be within -10 and 0!");
             return false;
         }
@@ -95,7 +100,7 @@ public class HelperMethods {
         return true;
     }
 
-    boolean setHighestFloor() {
+    public static boolean setHighestFloor() {
         System.out.println("Enter number of the highest floor (from 1 to 100)");
 
         if (!isNextInt()) {
@@ -104,7 +109,7 @@ public class HelperMethods {
 
         int maxFloor = scanner.nextInt();
 
-        if (maxFloor < 1 || maxFloor > 100) {
+        if (maxFloor < ElevatorStops.MIN_FLOOR_LIMIT_UP || maxFloor > ElevatorStops.MAX_FLOOR_LIMIT_TOP) {
             System.out.println("The floor must be within 1 and 100!");
             return false;
         }

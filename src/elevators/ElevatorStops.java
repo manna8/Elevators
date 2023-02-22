@@ -1,8 +1,13 @@
 package elevators;
 
 public class ElevatorStops {
-    private int MIN_FLOOR;
-    private int MAX_FLOOR;
+    private int minFloor;
+    private int maxFloor;
+
+    public static final int MIN_FLOOR_LIMIT_BOTTOM = -10;
+    public static final int MAX_FLOOR_LIMIT_BOTTOM = 0;
+    public static final int MIN_FLOOR_LIMIT_UP = 1;
+    public static final int MAX_FLOOR_LIMIT_TOP = 100;
 
     private static ElevatorStops instance = null;
 
@@ -16,24 +21,24 @@ public class ElevatorStops {
         return instance;
     }
 
-    void setMinFloor(int number) {
-        this.MIN_FLOOR = number;
+    public void setMinFloor(int number) {
+        this.minFloor = number;
     }
 
-    void setMaxFloor(int number) {
-        this.MAX_FLOOR = number;
+    public void setMaxFloor(int number) {
+        this.maxFloor = number;
     }
 
-    int getMinFloor() {
-        return MIN_FLOOR;
+    public int getMinFloor() {
+        return minFloor;
     }
 
-    int getMaxFloor() {
-        return MAX_FLOOR;
+    public int getMaxFloor() {
+        return maxFloor;
     }
 
     // calculates the distance for going down
-    int calculateDistanceForDown(int floor, ElevatorCar car, int stopsNum) {
+    public int calculateDistanceForDown(int floor, ElevatorCar car, int stopsNum) {
         if (car.floorsQueueDown.isEmpty()) {
             if (Math.abs(floor - car.currentFloor) < stopsNum) {
                 stopsNum = Math.abs(floor - car.currentFloor);
@@ -46,7 +51,7 @@ public class ElevatorStops {
     }
 
     // calculates the distance for going up
-    int calculateDistanceForUp(int floor, ElevatorCar car, int stopsNum) {
+    public int calculateDistanceForUp(int floor, ElevatorCar car, int stopsNum) {
         if (car.floorsQueueUp.isEmpty()) {
             if (Math.abs(floor - car.currentFloor) < stopsNum) {
                 stopsNum = Math.abs(floor - car.currentFloor);

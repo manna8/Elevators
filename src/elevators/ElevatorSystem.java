@@ -1,11 +1,10 @@
 package elevators;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ElevatorSystem {
-    private final int maxElevatorsNum = 16;
-    private final int minElevatorsNum = 0;
+    public static final int MAX_ELEVATORS_NUM = 16;
+    public static final int MIN_ELEVATORS_NUM = 0;
     private int elevatorsNum = 0;
 
     ArrayList<ElevatorCar> elevatorCars = new ArrayList<>();
@@ -32,11 +31,11 @@ public class ElevatorSystem {
     }
 
     int getMinElevatorsNum() {
-        return this.minElevatorsNum;
+        return MIN_ELEVATORS_NUM;
     }
 
     int getMaxElevatorsNum() {
-        return this.maxElevatorsNum;
+        return MAX_ELEVATORS_NUM;
     }
 
     // helper method for printing status
@@ -58,7 +57,7 @@ public class ElevatorSystem {
     }
 
     public static void main(String[] args) {
-        SystemController.get().InitialiseSystem();
+        SystemController.get().initialiseSystem();
     }
 
 }

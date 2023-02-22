@@ -7,7 +7,12 @@ public class ElevatorCar {
     protected int elevatorId;
     protected int currentFloor;
     protected int destinationFloor;
-    protected int direction; // 1 -> up, -1 -> down, 0 -> does nothing
+    protected int direction;
+
+    protected static final int UP = 1;
+    protected static final int DOWN = -1;
+    protected static final int NO_MOVE = 0;
+
 
     protected ArrayList<Integer> floorsQueueUp = new ArrayList<>();
     protected ArrayList<Integer> floorsQueueDown = new ArrayList<>();
@@ -16,23 +21,23 @@ public class ElevatorCar {
         this.elevatorId = id;
         this.currentFloor = 0;
         this.destinationFloor = 0;
-        this.direction = 1;
+        this.direction = UP;
     }
 
     public void decideWhichWay(int direction, int floor) {
-        if (direction == 1) {
+        if (direction == UP) {
             addStopUp(floor);
         } else {
             addStopDown(floor);
         }
     }
 
-    public void addStopUp(int floor) {
+    private void addStopUp(int floor) {
         this.floorsQueueUp.add(floor);
         this.floorsQueueUp.sort(null);
     }
 
-    public void addStopDown(int floor) {
+    private void addStopDown(int floor) {
         this.floorsQueueDown.add(floor);
         this.floorsQueueDown.sort(Collections.reverseOrder());
     }
@@ -44,22 +49,20 @@ public class ElevatorCar {
 
         if (!this.floorsQueueUp.isEmpty()) {
             this.destinationFloor = this.floorsQueueUp.remove(0);
-            this.direction = this.destinationFloor - this.currentFloor >= 0 ? 1 : -1;
+            this.direction = this.destinationFloor - this.currentFloor >= 0 ? UP : DOWN;
 
         } else if (!this.floorsQueueDown.isEmpty()) {
             this.destinationFloor = this.floorsQueueDown.remove(0);
-            this.direction = this.destinationFloor - this.currentFloor >= 0 ? 1 : -1;
-        }
+            this.direction = this.destinationFloor - this.currentFloor >= 0 ? UP : DOWN;
 
-        else if (this.currentFloor == 0) {
-            this.direction = 1;
+        } else if (this.currentFloor == 0) {
+            this.direction = UP;
 
         } else if (this.currentFloor == ElevatorStops.get().getMaxFloor()) {
-            this.direction = -1;
+            this.direction = DOWN;
 
-        } else if (this.currentFloor == this.destinationFloor) {
-            this.direction = 0;
+        } else {
+            this.direction = NO_MOVE;
         }
-
     }
 }

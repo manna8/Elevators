@@ -4,9 +4,8 @@ import java.util.Scanner;
 
 public class SystemController {
     private boolean exit = false;
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-    HelperMethods helper = new HelperMethods();
     InternalPanel internalPanel = new InternalPanel();
     ExternalPanel externalPanel = new ExternalPanel();
 
@@ -15,7 +14,7 @@ public class SystemController {
 
     private SystemController() {}
 
-    static SystemController get(){
+    public static SystemController get(){
         if (instance == null) {
             instance = new SystemController();
         }
@@ -50,24 +49,24 @@ public class SystemController {
             ElevatorSystem.get().elevatorCars.add(new ElevatorCar(i));
         }
 
-        helper.drawElevators(ElevatorSystem.get().elevatorCars);
+        HelperMethods.drawElevators(ElevatorSystem.get().elevatorCars);
 
         return true;
     }
 
     // makes a step of a simulation
-    void step() {
+    private void step() {
         externalPanel.externalCalls.forEach(call -> externalPanel.pickup(call.fistVal, call.secondVal));
         ElevatorSystem.get().elevatorCars.forEach(ElevatorCar::update);
         externalPanel.externalCalls.clear();
     }
 
     // resets elevators to default
-    void reset() {
+    private void reset() {
         for (ElevatorCar car: ElevatorSystem.get().elevatorCars) {
             car.floorsQueueUp.clear();
             car.floorsQueueDown.clear();
-            car.destinationFloor = 0;
+            car.destinationFloor = ElevatorCar.NO_MOVE;
         }
         externalPanel.externalCalls.clear();
         step();
@@ -84,9 +83,9 @@ public class SystemController {
                 System.out.println("Elevators' status:");
                 ElevatorSystem.get().printStatus(ElevatorSystem.get().status());
             }
-            case "show", "sh" -> helper.drawElevators(ElevatorSystem.get().elevatorCars);
+            case "show", "sh" -> HelperMethods.drawElevators(ElevatorSystem.get().elevatorCars);
             case "exit" -> exit = true;
-            case "help", "h" -> helper.helloMessage();
+            case "help", "h" -> HelperMethods.helloMessage();
             case "step" -> {
                 System.out.println("Making a step...");
                 step();
@@ -101,12 +100,12 @@ public class SystemController {
     }
 
 
-    public void InitialiseSystem() {
-        while(!helper.setLowestFloor());
-        while(!helper.setHighestFloor());
+    public void initialiseSystem() {
+        while(!HelperMethods.setLowestFloor());
+        while(!HelperMethods.setHighestFloor());
         while(!initialiseElevators());
 
-        helper.helloMessage();
+        HelperMethods.helloMessage();
 
         while(!exit) {
             readAndExecuteCommands();
