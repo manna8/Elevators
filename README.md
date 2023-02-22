@@ -36,6 +36,9 @@ At first, each call is added to externalCalls ArrayList. After calling a step() 
 
 In the end, the elevator with the lowest value of distance is chosen, and the 'call' floor is assigned to correct queue (with respect to direction).
 
+### Internal calls
+When it comes to internal calls, they have priority over external calls. The floor number from internal call is added directly to correct queue of the elevator, in which the call happened.
+
 ## Requirements
 For running a program, it is neccessary to have JAVA 16.
 
