@@ -55,11 +55,8 @@ public class SystemController {
         return true;
     }
 
-
-
     // makes a step of a simulation
     void step() {
-//        ElevatorSystem.get().elevatorCars.forEach(ElevatorCar::update);
         externalPanel.externalCalls.forEach(call -> externalPanel.pickup(call.fistVal, call.secondVal));
         ElevatorSystem.get().elevatorCars.forEach(ElevatorCar::update);
         externalPanel.externalCalls.clear();
@@ -81,12 +78,8 @@ public class SystemController {
         String command = scanner.next();
 
         switch (command) {
-            case "external_call", "e" -> {
-                externalPanel.handleExternalCall();
-            }
-            case "internal_call", "i" -> {
-                internalPanel.handleInternalCall();
-            }
+            case "external_call", "e" -> externalPanel.handleExternalCall();
+            case "internal_call", "i" -> internalPanel.handleInternalCall();
             case "status", "s" -> {
                 System.out.println("Elevators' status:");
                 ElevatorSystem.get().printStatus(ElevatorSystem.get().status());
