@@ -49,56 +49,49 @@ public class ExternalPanel {
         for (ElevatorCar car : ElevatorSystem.get().elevatorCars) {
             int stopsNum = Integer.MAX_VALUE;
 
-            // do nothing if whichever elevator already visits given floor
-            if (car.floorsQueue.contains(floor) || car.destinationFloor == floor) {
+            if (car.floorsQueueUp.contains(floor) || car.destinationFloor == floor || car.floorsQueueDown.contains(floor)) {
                 return;
             }
 
-            // if elevator goes in the same direction
-//            if (car.direction == direction) {
-//                int sameDir = ElevatorStops.get().calculateStopsForDirection(car, floor, direction);
-//
-//                if (sameDir < stopsNum) {
-//                    stopsNum = sameDir;
-//                }
-//            } else if (floor - car.destinationFloor > 0 && car.direction == 1){
-//                int sameDir = Math.abs(car.destinationFloor - floor);
-//
-//                if (sameDir < stopsNum) {
-//                    stopsNum = sameDir;
-//                }
-//            }
+            if (direction == -1) {
+                if (!car.floorsQueueUp.isEmpty()) {
+                    continue;
+                } else if (car.currentFloor == 0 || car.direction == 0 || car.currentFloor == ElevatorStops.get().getMaxFloor()) {
+                    if (Math.abs(floor - car.currentFloor) < minStops) {
+                        stopsNum = Math.abs(floor - car.currentFloor);
+                    }
+                }
 
-            // if elevator has nothing to do
-            if (car.direction == 0 || car.floorsQueue.isEmpty()) {
-                int freeEl = Math.abs(car.currentFloor - floor);
+                if (car.floorsQueueDown.isEmpty()) {
+                    if (Math.abs(floor - car.currentFloor) < stopsNum) {
+                        stopsNum = Math.abs(floor - car.currentFloor);
+                    }
+                } else if (floor > car.floorsQueueDown.get(0)) {
+                    if (floor - car.floorsQueueDown.get(0) < stopsNum) {
+                        stopsNum = floor - car.floorsQueueDown.get(0);
+                    }
+                }
 
-                if (freeEl < stopsNum) {
-                    stopsNum = freeEl;
+            } else if (direction == 1) {
+                if (!car.floorsQueueDown.isEmpty()) {
+                    continue;
+                } else if (car.currentFloor == 0 || car.direction == 0 || car.currentFloor == ElevatorStops.get().getMinFloor()) {
+                    if (Math.abs(floor - car.currentFloor) < minStops) {
+                        stopsNum = Math.abs(floor - car.currentFloor);
+                    }
+                }
+
+                if (car.floorsQueueUp.isEmpty()) {
+                    if (Math.abs(floor - car.currentFloor) < stopsNum) {
+                        stopsNum = Math.abs(floor - car.currentFloor);
+                    }
+                } else if (floor > car.floorsQueueUp.get(0)) {
+                    if (floor - car.floorsQueueUp.get(0) < stopsNum) {
+                        stopsNum = floor - car.floorsQueueUp.get(0);
+                    }
+
                 }
             }
-            int sameDir = ElevatorStops.get().calculateStopsForDirection(car, floor, direction);
-
-            if (sameDir < stopsNum) {
-                stopsNum = sameDir;
-            }
-
-//            // if elevator goes in the same direction
-//            if (car.direction == direction) {
-//                stopsNum = ElevatorStops.get().calculateStopsForDirection(car, floor, direction);
-//            } else if(!car.floorsQueue.isEmpty()){
-//                stopsNum = Math.abs(car.floorsQueue.get(0) - floor);
-//            }
-//
-//            // if elevator has nothing to do
-//            else if (car.direction == 0) {
-//                stopsNum = Math.abs(car.currentFloor - floor);
-//            }
-//            if (car.currentFloor == car.destinationFloor && car.floorsQueue.isEmpty()) {
-//                stopsNum = Math.abs(car.currentFloor - floor);
-//            } else {
-//                stopsNum = ElevatorStops.get().calculateStopsForDirection(car, floor, direction);
-//            }
 
             // choose the elevator with the closest distance to given floor
             if (stopsNum < minStops) {
@@ -108,7 +101,7 @@ public class ExternalPanel {
         }
 
         if (chosenCar != null) {
-            chosenCar.addStopAtCorrectPlace(floor);
+            chosenCar.decideWhichWay(direction, floor);
         }
 
     }

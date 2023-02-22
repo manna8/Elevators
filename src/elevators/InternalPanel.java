@@ -8,11 +8,8 @@ public class InternalPanel {
     HelperMethods helper = new HelperMethods();
 
     void internalCall(int elevatorId, int toFloor) {
-        for (ElevatorCar elevator : ElevatorSystem.get().elevatorCars) {
-            if (elevator.elevatorId == elevatorId) {
-                elevator.addStopAtCorrectPlace(toFloor);
-            }
-        }
+        ElevatorCar car = ElevatorSystem.get().elevatorCars.get(elevatorId);
+        car.decideWhichWay(car.direction, toFloor);
     }
 
     void handleInternalCall() {

@@ -57,10 +57,8 @@ public class ElevatorStops {
         return (floor < currFloor && floor > destFloor && currFloor - floor < minStops);
     }
 
-    int calculateStopsForDirection(ElevatorCar car, int floor, int direction) {
-        int minStops = Integer.MAX_VALUE;
-
-        if (direction == 1) {
+    int calculateStopsForDirection(ElevatorCar car, int floor, int minStops) {
+        if (car.direction == 1) {
             if (smallestAfterLastStopUp(floor, car.destinationFloor, minStops)) {
                 minStops = floor - car.destinationFloor;
 
@@ -68,7 +66,7 @@ public class ElevatorStops {
                 minStops = floor - car.currentFloor;
             }
 
-        } else if (direction == -1){
+        } else if (car.direction == -1){
             if (smallestBetweenStopsDown(floor, car.currentFloor, car.destinationFloor, minStops)) {
                 minStops = car.currentFloor - floor;
 
@@ -79,5 +77,21 @@ public class ElevatorStops {
 
         return minStops;
     }
+
+    int calculateStopsForContraryDirection(ElevatorCar car, int floor, int minStops) {
+        switch (car.direction) {
+            case 1:
+                if (car.floorsQueue.get(car.floorsQueue.size() - 1) < floor) {
+                    minStops = floor - car.floorsQueue.get(car.floorsQueue.size() - 1);
+                }
+            case -1:
+                if (car.floorsQueue.get(car.floorsQueue.size() - 1) > floor) {
+                    minStops = car.floorsQueue.get(car.floorsQueue.size() - 1) - floor;
+                }
+        }
+
+        return minStops;
+    }
+
 
 }

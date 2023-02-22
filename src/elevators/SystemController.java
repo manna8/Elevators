@@ -35,6 +35,12 @@ public class SystemController {
     private boolean initialiseElevators() {
         System.out.println("Enter number of elevators (max 16):");
 
+        if(!scanner.hasNextInt()) {
+            System.out.println("Provide an integer!");
+            scanner.next();
+            return false;
+        }
+
         if(!setElevatorNum(scanner.nextInt())) {
             System.out.println("Provide a valid number of elevators.");
             return false;
@@ -62,7 +68,8 @@ public class SystemController {
     // resets elevators to default
     void reset() {
         for (ElevatorCar car: ElevatorSystem.get().elevatorCars) {
-            car.floorsQueue.clear();
+            car.floorsQueueUp.clear();
+            car.floorsQueueDown.clear();
             car.destinationFloor = 0;
         }
         externalPanel.externalCalls.clear();
