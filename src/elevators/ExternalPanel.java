@@ -56,10 +56,6 @@ public class ExternalPanel {
             if (direction == -1) {
                 if (!car.floorsQueueUp.isEmpty()) {
                     continue;
-                } else if (car.currentFloor == 0 || car.direction == 0 || car.currentFloor == ElevatorStops.get().getMaxFloor()) {
-                    if (Math.abs(floor - car.currentFloor) < minStops) {
-                        stopsNum = Math.abs(floor - car.currentFloor);
-                    }
                 }
 
                 if (car.floorsQueueDown.isEmpty()) {
@@ -67,18 +63,14 @@ public class ExternalPanel {
                         stopsNum = Math.abs(floor - car.currentFloor);
                     }
                 } else if (floor > car.floorsQueueDown.get(0)) {
-                    if (floor - car.floorsQueueDown.get(0) < stopsNum) {
-                        stopsNum = floor - car.floorsQueueDown.get(0);
+                    if (Math.abs(floor - car.floorsQueueDown.get(0)) < stopsNum) {
+                        stopsNum = Math.abs(floor - car.floorsQueueDown.get(0));
                     }
                 }
 
             } else if (direction == 1) {
                 if (!car.floorsQueueDown.isEmpty()) {
                     continue;
-                } else if (car.currentFloor == 0 || car.direction == 0 || car.currentFloor == ElevatorStops.get().getMinFloor()) {
-                    if (Math.abs(floor - car.currentFloor) < minStops) {
-                        stopsNum = Math.abs(floor - car.currentFloor);
-                    }
                 }
 
                 if (car.floorsQueueUp.isEmpty()) {
@@ -86,8 +78,8 @@ public class ExternalPanel {
                         stopsNum = Math.abs(floor - car.currentFloor);
                     }
                 } else if (floor > car.floorsQueueUp.get(0)) {
-                    if (floor - car.floorsQueueUp.get(0) < stopsNum) {
-                        stopsNum = floor - car.floorsQueueUp.get(0);
+                    if (Math.abs(floor - car.floorsQueueUp.get(0)) < stopsNum) {
+                        stopsNum = Math.abs(floor - car.floorsQueueUp.get(0));
                     }
 
                 }

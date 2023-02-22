@@ -57,41 +57,23 @@ public class ElevatorStops {
         return (floor < currFloor && floor > destFloor && currFloor - floor < minStops);
     }
 
-    int calculateStopsForDirection(ElevatorCar car, int floor, int minStops) {
-        if (car.direction == 1) {
-            if (smallestAfterLastStopUp(floor, car.destinationFloor, minStops)) {
-                minStops = floor - car.destinationFloor;
-
-            } else if (smallestBetweenStopsUp(floor, car.currentFloor, car.destinationFloor, minStops)) {
-                minStops = floor - car.currentFloor;
-            }
-
-        } else if (car.direction == -1){
-            if (smallestBetweenStopsDown(floor, car.currentFloor, car.destinationFloor, minStops)) {
-                minStops = car.currentFloor - floor;
-
-            } else if (smallestAfterLastStopDown(floor, car.destinationFloor, minStops)) {
-                minStops = car.destinationFloor - floor;
-            }
-        }
-
-        return minStops;
-    }
-
-    int calculateStopsForContraryDirection(ElevatorCar car, int floor, int minStops) {
-        switch (car.direction) {
-            case 1:
-                if (car.floorsQueue.get(car.floorsQueue.size() - 1) < floor) {
-                    minStops = floor - car.floorsQueue.get(car.floorsQueue.size() - 1);
-                }
-            case -1:
-                if (car.floorsQueue.get(car.floorsQueue.size() - 1) > floor) {
-                    minStops = car.floorsQueue.get(car.floorsQueue.size() - 1) - floor;
-                }
-        }
-
-        return minStops;
-    }
+//    int calculateDistanceForDown(int floor, ElevatorCar car, int stopsNum) {
+//        if (car.floorsQueueUp.isEmpty()) {
+//            if (Math.abs(floor - car.currentFloor) < stopsNum) {
+//                stopsNum = Math.abs(floor - car.currentFloor);
+//            }
+//        } else if (floor > car.floorsQueueUp.get(0)) {
+//            if (Math.abs(floor - car.floorsQueueUp.get(0)) < stopsNum) {
+//                stopsNum = Math.abs(floor - car.floorsQueueUp.get(0));
+//            }
+//        }
+//
+//        return stopsNum;
+//    }
+//
+//    int calculateDistanceForUp(int floor, ElevatorCar car) {
+//
+//    }
 
 
 }
