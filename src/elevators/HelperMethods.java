@@ -17,7 +17,6 @@ public class HelperMethods {
         return (id >= 0 && id < ElevatorSystem.get().getElevatorsNum());
     }
 
-    // should I check if call is made on min or max floor (can't go down or up)
     int returnValidDirection(int floor) {
         if (floor == ElevatorStops.get().getMaxFloor()) {
             return -1;
@@ -29,6 +28,17 @@ public class HelperMethods {
         String directionString = scanner.next();
 
         return directionString.equals("u") ? 1 : directionString.equals("d") ? -1 : 0;
+    }
+
+    boolean isNextInt() {
+        if (scanner.hasNextInt()) {
+            return true;
+        }
+
+        System.out.println("Provide an integer!");
+        scanner.next();
+        return false;
+
     }
 
     public void drawElevators(ArrayList<ElevatorCar> elevatorCars) {
@@ -66,17 +76,6 @@ public class HelperMethods {
         System.out.println(ANSI_RESET);
     }
 
-    boolean isNextInt() {
-        if (scanner.hasNextInt()) {
-            return true;
-        }
-
-        System.out.println("Provide an integer!");
-        scanner.next();
-        return false;
-
-    }
-
      boolean setLowestFloor() {
         System.out.println("Enter number of the lowest floor (from -10 to 0)");
 
@@ -111,7 +110,6 @@ public class HelperMethods {
         }
 
         ElevatorStops.get().setMaxFloor(maxFloor);
-        ElevatorStops.get().setFloorsNum();
 
         return true;
     }

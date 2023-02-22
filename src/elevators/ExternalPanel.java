@@ -26,8 +26,7 @@ public class ExternalPanel {
         int floor = scanner.nextInt();
 
         if (!helper.checkIfValidFloor(floor)) {
-            System.out.printf("Provide a valid floor number (from %d to %d).", ElevatorStops.get().getMinFloor(), ElevatorStops.get().getMaxFloor());
-            System.out.println();
+            System.out.printf("Provide a valid floor number (from %d to %d).%n", ElevatorStops.get().getMinFloor(), ElevatorStops.get().getMaxFloor());
             return;
         }
 
@@ -58,31 +57,14 @@ public class ExternalPanel {
                     continue;
                 }
 
-                if (car.floorsQueueDown.isEmpty()) {
-                    if (Math.abs(floor - car.currentFloor) < stopsNum) {
-                        stopsNum = Math.abs(floor - car.currentFloor);
-                    }
-                } else if (floor > car.floorsQueueDown.get(0)) {
-                    if (Math.abs(floor - car.floorsQueueDown.get(0)) < stopsNum) {
-                        stopsNum = Math.abs(floor - car.floorsQueueDown.get(0));
-                    }
-                }
+                stopsNum = ElevatorStops.get().calculateDistanceForDown(floor, car, stopsNum);
 
             } else if (direction == 1) {
                 if (!car.floorsQueueDown.isEmpty()) {
                     continue;
                 }
 
-                if (car.floorsQueueUp.isEmpty()) {
-                    if (Math.abs(floor - car.currentFloor) < stopsNum) {
-                        stopsNum = Math.abs(floor - car.currentFloor);
-                    }
-                } else if (floor > car.floorsQueueUp.get(0)) {
-                    if (Math.abs(floor - car.floorsQueueUp.get(0)) < stopsNum) {
-                        stopsNum = Math.abs(floor - car.floorsQueueUp.get(0));
-                    }
-
-                }
+                stopsNum = ElevatorStops.get().calculateDistanceForUp(floor, car, stopsNum);
             }
 
             // choose the elevator with the closest distance to given floor

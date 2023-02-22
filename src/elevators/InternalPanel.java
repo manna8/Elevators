@@ -24,8 +24,7 @@ public class InternalPanel {
         int id = scanner.nextInt();
 
         if(!helper.checkIfValidId(id)) {
-            System.out.printf("Provide a valid id number (from %d and %d)", 0, ElevatorSystem.get().getElevatorsNum() - 1);
-            System.out.println();
+            System.out.printf("Provide a valid id number (from %d and %d).%n", 0, ElevatorSystem.get().getElevatorsNum() - 1);
             return;
         }
 

@@ -11,7 +11,6 @@ public class ElevatorCar {
 
     protected ArrayList<Integer> floorsQueueUp = new ArrayList<>();
     protected ArrayList<Integer> floorsQueueDown = new ArrayList<>();
-    protected ArrayList<Integer> floorsQueue = new ArrayList<>();
 
     public ElevatorCar(int id) {
         this.elevatorId = id;
